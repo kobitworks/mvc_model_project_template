@@ -27,6 +27,7 @@
 
 - `config/bootstrap.php` で Monolog を用いたログ設定と Twig 環境の初期化を行います。
 - `app/common/functions.php` の `get_controller_nav()` がコントローラ構成からナビゲーション情報を生成し、Twig のグローバル変数 `nav` として登録します。
+- 基底コントローラ `c_base.php` はメニューから除外されます。
 
 ## エラーハンドリング
 
