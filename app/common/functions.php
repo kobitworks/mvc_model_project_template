@@ -9,14 +9,18 @@
  *
  * @param string $controllerDir 探索対象のディレクトリ
  * @param string $namespace     現在の名前空間（再帰用）
+ * @param int    $depth         現在の階層（再帰用）
  * @return array<int, array<string, mixed>>
- */
-function get_controller_nav(string $controllerDir, string $namespace = ''): array
+*/
+function get_controller_nav(string $controllerDir, string $namespace = '', int $depth = 0): array
 {
     $nav = [];
 
     $excludeDirs  = defined('EXCLUDE_CONTROLLER_DIRS') ? EXCLUDE_CONTROLLER_DIRS : [];
     $excludeFiles = defined('EXCLUDE_CONTROLLER_FILES') ? EXCLUDE_CONTROLLER_FILES : [];
+
+    // 取得する階層の上限
+    $maxDepth = 3;
 
     try {
         foreach (scandir($controllerDir) as $entry) {
@@ -29,7 +33,11 @@ function get_controller_nav(string $controllerDir, string $namespace = ''): arra
                 if (in_array($entry, $excludeDirs, true)) {
                     continue;
                 }
-                $children = get_controller_nav($path, trim($namespace . '/' . $entry, '/'));
+                // 上限階層を超える場合は再帰処理を行わない
+                if ($depth >= $maxDepth - 1) {
+                    continue;
+                }
+                $children = get_controller_nav($path, trim($namespace . '/' . $entry, '/'), $depth + 1);
                 $nav[] = [
                     'name'       => $entry,
                     'controller' => null,
