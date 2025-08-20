@@ -17,11 +17,15 @@
   <nav class="site-nav">
     {% block nav %}
     <ul>
-      <li><a href="./">top</a></li>
       {% for item in nav %}
         <li{% if item.children|length %} class="dropdown"{% endif %}>
           {% if item.controller %}
-            <a href="./?c={{ item.controller }}{% if item.namespace %}&n={{ item.namespace }}{% endif %}">{{ item.name|e }}</a>
+            {% set full = item.namespace ? item.namespace ~ '/' ~ item.controller : item.controller %}
+            {% if full == default_class %}
+              <a href="./">{{ item.name|e }}</a>
+            {% else %}
+              <a href="./?c={{ item.controller }}{% if item.namespace %}&n={{ item.namespace }}{% endif %}">{{ item.name|e }}</a>
+            {% endif %}
           {% else %}
             <a href="#">{{ item.name|e }}</a>
           {% endif %}
@@ -30,7 +34,12 @@
               {% for child in item.children %}
                 <li{% if child.children|length %} class="dropdown"{% endif %}>
                   {% if child.controller %}
-                    <a href="./?c={{ child.controller }}{% if child.namespace %}&n={{ child.namespace }}{% endif %}">{{ child.name|e }}</a>
+                    {% set full_child = child.namespace ? child.namespace ~ '/' ~ child.controller : child.controller %}
+                    {% if full_child == default_class %}
+                      <a href="./">{{ child.name|e }}</a>
+                    {% else %}
+                      <a href="./?c={{ child.controller }}{% if child.namespace %}&n={{ child.namespace }}{% endif %}">{{ child.name|e }}</a>
+                    {% endif %}
                   {% else %}
                     <a href="#">{{ child.name|e }}</a>
                   {% endif %}
@@ -39,7 +48,12 @@
                       {% for grandchild in child.children %}
                         <li>
                           {% if grandchild.controller %}
-                            <a href="./?c={{ grandchild.controller }}{% if grandchild.namespace %}&n={{ grandchild.namespace }}{% endif %}">{{ grandchild.name|e }}</a>
+                            {% set full_grand = grandchild.namespace ? grandchild.namespace ~ '/' ~ grandchild.controller : grandchild.controller %}
+                            {% if full_grand == default_class %}
+                              <a href="./">{{ grandchild.name|e }}</a>
+                            {% else %}
+                              <a href="./?c={{ grandchild.controller }}{% if grandchild.namespace %}&n={{ grandchild.namespace }}{% endif %}">{{ grandchild.name|e }}</a>
+                            {% endif %}
                           {% else %}
                             <a href="#">{{ grandchild.name|e }}</a>
                           {% endif %}

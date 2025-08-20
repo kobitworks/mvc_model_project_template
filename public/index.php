@@ -12,7 +12,9 @@ $GLOBALS['logger']->info("File : " . __FILE__);
 use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
-$mustLogin = ($_ENV['MUST_LOGIN'] ?? '1') === '1';
+$mustLogin    = ($_ENV['MUST_LOGIN'] ?? '1') === '1';
+$defaultClass = trim($_ENV['DEFAULT_CLASS'] ?? 'top');
+$GLOBALS['twig']->addGlobal('default_class', $defaultClass);
 
 // URL解析
 $pathInfo = $_SERVER['PATH_INFO'] ?? '';
@@ -31,8 +33,7 @@ $classParam = $_GET['c'] ?? ($parts[0] ?? null);
 $actionParam = $_GET['f'] ?? ($parts[1] ?? null);
 
 if (!isset($classParam) || strlen(trim($classParam)) === 0) {
-    $defaultClass = trim($_ENV['DEFAULT_CLASS'] ?? '');
-    $classParam = $defaultClass !== '' ? $defaultClass : 'top';
+    $classParam = $defaultClass;
 }
 
 if (!isset($actionParam) || strlen(trim($actionParam)) === 0) {

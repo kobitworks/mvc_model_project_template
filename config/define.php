@@ -3,5 +3,7 @@
 const EXCLUDE_CONTROLLER_DIRS = [];
 
 // コントローラ探索時に除外するファイル
-const EXCLUDE_CONTROLLER_FILES = [];
+const EXCLUDE_CONTROLLER_FILES = [
+    'c_base.php',
+];
 
