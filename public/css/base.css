@@ -1,0 +1,111 @@
+/* 共通レイアウト */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  height: 100vh; /* 追加 */
+  display: flex; /* 追加 */
+  flex-direction: column; /* 追加 */
+}
+
+/* ヘッダー */
+.site-header {
+  background: #bbbbbb;
+  padding: 10px 20px;
+}
+
+.site-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* ナビゲーション */
+.site-nav {
+  background: #333;
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+}
+
+.site-nav li {
+  position: relative;
+}
+
+.site-nav a {
+  display: block;
+  padding: 15px 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  background: #444;
+}
+
+.site-nav .dropdown > a::after {
+  content: "\25BC"; /* ▼ */
+  font-size: 0.6em;
+  margin-left: 5px;
+}
+
+.site-nav .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #444;
+  min-width: 180px;
+  list-style: none;
+  z-index: 1000;
+}
+
+.site-nav .dropdown:hover > .dropdown-menu,
+.site-nav .dropdown.open > .dropdown-menu {
+  display: block;
+}
+
+.site-nav .dropdown-menu li {
+  position: relative;
+}
+
+.site-nav .dropdown-menu .dropdown-menu {
+  top: 0;
+  left: 100%;
+}
+
+/* メインコンテンツ */
+.site-main {
+  padding: 20px;
+  flex: 1; /* 修正 */
+  overflow-y: auto; /* 追加 */
+  margin: 10px;
+}
+
+ul, li {
+  margin-left: 10px;
+}
+
+/* フッター */
+.site-footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .site-nav ul {
+    flex-direction: column;
+  }
+  .site-nav .dropdown-menu {
+    position: static;
+  }
+}

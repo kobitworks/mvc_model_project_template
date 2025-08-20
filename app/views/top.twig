@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+
+{% block title %}aie-code{% endblock %}
+
+{% block content %}
+<h1>aie-code sample system</h1>
+<p>この画面は、aie-codeのサンプルシステムです。</p>
+
+<h2>このサンプルシステムについて</h2>
+<h3>システム構成</h3>
+<ul>
+    <li>PHPとTwigを用いたシンプルなMVC構成</li>
+    <li>public/index.phpがフロントコントローラとしてリクエストを処理します</li>
+    <li>config/bootstrap.phpでTwigやMonologなどの初期化を行います</li>
+</ul>
+
+<h3>フォルダ構成</h3>
+<ul>
+    <li>app/ - コントローラ、モデル、ビューなどのアプリケーション本体</li>
+    <li>config/ - 環境設定や共通定義</li>
+    <li>public/ - Web公開ディレクトリ（index.php、静的ファイル）</li>
+    <li>vendor/ - Composerでインストールされたライブラリ</li>
+</ul>
+
+<h3>共通で利用するプログラム</h3>
+<ul>
+    <li>public/index.php - ルーティングとコントローラ呼び出しを担当</li>
+    <li>config/bootstrap.php - ログ、Twig、設定の初期化を行う</li>
+</ul>
+
+<h3>ライブラリ（Composer）</h3>
+<ul>
+    <li>vlucas/phpdotenv - .envファイルから環境変数を読み込む</li>
+    <li>twig/twig - テンプレートエンジン</li>
+    <li>monolog/monolog - ログ出力ライブラリ</li>
+</ul>
+{% endblock %}

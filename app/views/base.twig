@@ -1,0 +1,63 @@
+{% macro nav_item(item) %}
+  {% import _self as macros %}
+  {% set has_children = item.children|length > 0 %}
+  <li{% if has_children %} class="dropdown"{% endif %}>
+    {% if item.controller %}
+      <a href="./?c={{ item.controller }}{% if item.namespace %}&n={{ item.namespace }}{% endif %}">{{ item.name|e }}</a>
+    {% else %}
+      <a href="#">{{ item.name|e }}</a>
+    {% endif %}
+    {% if has_children %}
+      <ul class="dropdown-menu">
+        {% for child in item.children %}
+          {{ macros.nav_item(child) }}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </li>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}aie-code sample{% endblock %}</title>
+  <link rel="stylesheet" href="./css/base.css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    {% block header %}
+    <h1 class="site-title">aie-code sample</h1>
+    {% endblock %}
+  </header>
+
+  <nav class="site-nav">
+    {% block nav %}
+    {% import _self as macros %}
+    <ul>
+      <li><a href="./">top</a></li>
+      {% for item in nav %}
+        {{ macros.nav_item(item) }}
+      {% endfor %}
+    </ul>
+    {% endblock %}
+  </nav>
+
+  <main class="site-main" role="main">
+    {% block content %}
+    <p>{{ message|e }}</p>
+    {% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    {% block footer %}
+    <p>© kobitworks</p>
+    {% endblock %}
+  </footer>
+
+  <script src="./js/base.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

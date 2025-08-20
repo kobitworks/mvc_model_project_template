@@ -1,0 +1,7 @@
+/vendor/
+.*
+*/.*
+*.bk
+*.bk/
+
+!.gitignore
