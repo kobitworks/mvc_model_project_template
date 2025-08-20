@@ -84,6 +84,11 @@
   </footer>
 
   <script src="./js/base.js"></script>
+  {% if error_msg %}
+  <script>
+    alert('{{ error_msg|e('js') }}');
+  </script>
+  {% endif %}
   {% block scripts %}{% endblock %}
 </body>
 </html>
