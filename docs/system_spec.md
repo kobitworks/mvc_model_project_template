@@ -17,7 +17,8 @@
 
 1. `public/index.php` がセッションを開始し Composer オートロードと `config/bootstrap.php` を読み込みます。
 2. `Dotenv` で `.env` を読み込み、`MUST_LOGIN` や `DEFAULT_CLASS` などの環境変数を設定します。
-3. URL やクエリパラメータからコントローラ (`c`)、アクション (`f`)、名前空間 (`n`) を決定します。
+3. URL やクエリパラメータからコントローラ (`c`) とアクション (`f`) を決定します。`c` には `namespace/controller` 形式で名前空間を指定可能です。
+   `c` が指定されない場合は環境変数 `DEFAULT_CLASS`（未設定時は `top`）、`f` が指定されない場合は `index` が使用されます。
 4. `MUST_LOGIN` が有効な場合、未ログインユーザは `c_login` にリダイレクトされます。
 5. 指定されたコントローラとアクションが存在しない場合は `c_error` がエラーメッセージを表示します。
 6. コントローラ内でモデルを呼び出し、Twig を通じてビューをレンダリングします。
@@ -29,12 +30,12 @@
 
 ## エラーハンドリング
 
-- `App\Models\m_error` が `.storage/error.log` にエラーログを追記します。
-- `App\Controllers\c_error` がユーザ向けのエラー画面を表示します。
+- `App\\Models\\m_error` が `.storage/error.log` にエラーログを追記します。
+- `App\\Controllers\\c_error` がユーザ向けのエラー画面を表示します。
 
 ## 環境変数
 
-- `DEFAULT_CLASS` : コントローラが指定されない場合のデフォルトクラス
+- `DEFAULT_CLASS` : コントローラが指定されない場合のデフォルトクラス（未設定時は `top`）
 - `MUST_LOGIN` : `1` でログイン必須を有効化
 
 ## 命名規約

@@ -26,15 +26,27 @@ if ($pathInfo !== '') {
 }
 $parts = $path === '' ? [] : explode('/', $path);
 
-// class名、function名、namespaceの取得（クエリパラメータ優先）
-$className = $_GET['c'] ?? ($parts[0] ?? null);
-$functionName = $_GET['f'] ?? ($parts[1] ?? 'index');
-$namespaceName = $_GET['n'] ?? null;
-if (!isset($className) || strlen(trim($className)) === 0) {
-    $className = $_ENV['DEFAULT_CLASS'] ?? 'top';
+// class名とfunction名の取得（クエリパラメータ優先）
+$classParam = $_GET['c'] ?? ($parts[0] ?? null);
+$actionParam = $_GET['f'] ?? ($parts[1] ?? null);
+
+if (!isset($classParam) || strlen(trim($classParam)) === 0) {
+    $defaultClass = trim($_ENV['DEFAULT_CLASS'] ?? '');
+    $classParam = $defaultClass !== '' ? $defaultClass : 'top';
 }
+
+if (!isset($actionParam) || strlen(trim($actionParam)) === 0) {
+    $actionParam = 'index';
+}
+
+// cパラメータを namespace/controller 形式で解析
+$classParam = trim($classParam, '/');
+$segments = $classParam === '' ? [] : explode('/', $classParam);
+$className = array_pop($segments) ?? '';
+$namespaceName = implode('\\', array_map('trim', $segments));
+
 $baseName = strtolower(trim($className));
-$actionName = $functionName;
+$actionName = trim($actionParam);
 
 $controllerClass = 'App\\Controllers\\' . ($namespaceName ? $namespaceName . '\\' : '') . 'c_' . $baseName;
 
