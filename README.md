@@ -1,0 +1,2 @@
+# mvc_model_project_template
+PHPでMVCモデルの構成で簡易的なシステムを作るテンプレート
