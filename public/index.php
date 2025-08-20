@@ -51,18 +51,20 @@ $actionName = trim($actionParam);
 
 $controllerClass = 'App\\Controllers\\' . ($namespaceName ? $namespaceName . '\\' : '') . 'c_' . $baseName;
 
+$errorMsg = null;
 if (!class_exists($controllerClass)) {
-    $controller = new App\Controllers\c_error();
-    $controller->notFound("コントローラー '$controllerClass' が見つかりません。");
-    exit;
+    $errorMsg = "コントローラー '$controllerClass' が見つかりません。";
+    $controllerClass = 'App\\Controllers\\c_' . $defaultClass;
+    $actionName = 'index';
 }
 
 $controller = new $controllerClass();
 
 if (!method_exists($controller, $actionName)) {
-    $controller = new App\Controllers\c_error();
-    $controller->notFound("アクション '$actionName' が存在しません。");
-    exit;
+    $errorMsg = "アクション '$actionName' が存在しません。";
+    $actionName = 'index';
 }
+
+$GLOBALS['twig']->addGlobal('error_msg', $errorMsg);
 
 $controller->$actionName();
