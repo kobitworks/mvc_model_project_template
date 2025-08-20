@@ -8,6 +8,6 @@ class m_base {
     }
 
     public function getMessage(): string {
-        return "これは base モデルからのメッセージです。";
+        return "これは " . __CLASS__ ." モデルからのメッセージです。";
     }
 }

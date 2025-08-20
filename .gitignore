@@ -5,3 +5,5 @@
 *.bk/
 
 !.gitignore
+# composerは起動環境ごとに分ける
+composer.lock
