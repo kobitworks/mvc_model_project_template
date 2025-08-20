@@ -1,20 +1,27 @@
 <?php
 if ($argc < 2) {
-    echo "Usage: php generate_mvc.php [name] [[dir]]\n";
+    echo "Usage: php generate_files.php [namespace/]c_[name][.php]\n";
     exit(1);
 }
-if ($argc == 3) {
-    $inputDir = strtolower($argv[2]);
-    $inputDir = str_replace(['\\', '/'], '/', $inputDir);
-    $inputDir = trim($inputDir, '/');
-    $wGroupDir = $inputDir === '' ? '' : $inputDir . '/';
-    $wClassGroupDir = $inputDir === '' ? '' : '\\' . str_replace('/', '\\', $inputDir);
-} else {
-    $wGroupDir = '';
-    $wClassGroupDir = '';
+
+$inputPath = strtolower($argv[1]);
+$inputPath = str_replace(['\\', '/'], '/', $inputPath);
+$inputPath = preg_replace('/\\.php$/', '', $inputPath);
+$inputPath = trim($inputPath, '/');
+
+$segments = $inputPath === '' ? [] : explode('/', $inputPath);
+$controllerFile = array_pop($segments);
+
+if (strpos($controllerFile, 'c_') !== 0) {
+    echo "Controller name must start with 'c_' prefix.\n";
+    exit(1);
 }
 
-$name = strtolower($argv[1]); // ファイル名・クラス名とも小文字
+$name = substr($controllerFile, 2); // ファイル名・クラス名とも小文字
+
+$wGroupDir = empty($segments) ? '' : implode('/', $segments) . '/';
+$wClassGroupDir = empty($segments) ? '' : '\\' . implode('\\', $segments);
+
 $baseDir = __DIR__ . '/app';
 $paths = [
     'controller' => __DIR__ . "/app/controllers/{$wGroupDir}c_{$name}.php",
