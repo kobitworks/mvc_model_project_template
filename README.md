@@ -7,7 +7,7 @@ PHPでMVCモデルの構成で簡易的なシステムを作るテンプレー�
 
 1. 依存パッケージのインストール
    ```sh
-   composer update
+   composer install
    ```
 2. 環境変数ファイルの作成
    `sample.env` を `.env` にコピーし、必要に応じて値を編集します。

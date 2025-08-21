@@ -2,7 +2,13 @@
 declare(strict_types=1);
 
 session_start();
-require_once __DIR__ . '/../vendor/autoload.php';
+$autoloadPath = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($autoloadPath)) {
+    http_response_code(500);
+    echo '必要なライブラリが見つかりません。composer install を実行してください。';
+    exit;
+}
+require_once $autoloadPath;
 require_once __DIR__ . '/../config/bootstrap.php';
 
 // Log出力
