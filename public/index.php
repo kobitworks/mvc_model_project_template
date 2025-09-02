@@ -12,7 +12,6 @@ $GLOBALS['logger']->info("File : " . __FILE__);
 use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
-$mustLogin    = ($_ENV['MUST_LOGIN'] ?? '1') === '1';
 $defaultClass = trim($_ENV['DEFAULT_CLASS'] ?? 'top');
 $GLOBALS['twig']->addGlobal('default_class', $defaultClass);
 
