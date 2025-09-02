@@ -16,6 +16,13 @@ $mustLogin    = ($_ENV['MUST_LOGIN'] ?? '1') === '1';
 $defaultClass = trim($_ENV['DEFAULT_CLASS'] ?? 'top');
 $GLOBALS['twig']->addGlobal('default_class', $defaultClass);
 
+// ルーティングテーブルの読み込み
+$routeTable = [];
+$routeFile = __DIR__ . '/../config/route.json';
+if (is_readable($routeFile)) {
+    $routeTable = json_decode(file_get_contents($routeFile), true) ?? [];
+}
+
 // URL解析
 $pathInfo = $_SERVER['PATH_INFO'] ?? '';
 if ($pathInfo !== '') {
@@ -28,21 +35,27 @@ if ($pathInfo !== '') {
 }
 $parts = $path === '' ? [] : explode('/', $path);
 
-// class名とfunction名の取得（クエリパラメータ優先）
-$classParam = $_GET['c'] ?? ($parts[0] ?? null);
-$actionParam = $_GET['f'] ?? ($parts[1] ?? null);
+// class名とfunction名の取得
+$classParam = $parts[0] ?? null;
+$actionParam = $parts[1] ?? null;
 
 if (!isset($classParam) || strlen(trim($classParam)) === 0) {
     $classParam = $defaultClass;
+}
+
+// ルーティングテーブルによるクラス名の解決
+$classKey = trim($classParam);
+if (isset($routeTable[$classKey])) {
+    $classParam = $routeTable[$classKey];
 }
 
 if (!isset($actionParam) || strlen(trim($actionParam)) === 0) {
     $actionParam = 'index';
 }
 
-// cパラメータを namespace/controller 形式で解析
+// classパラメータを dir-class 形式で解析
 $classParam = trim($classParam, '/');
-$segments = $classParam === '' ? [] : explode('/', $classParam);
+$segments = $classParam === '' ? [] : explode('-', $classParam);
 $className = array_pop($segments) ?? '';
 $namespaceName = implode('\\', array_map('trim', $segments));
 
