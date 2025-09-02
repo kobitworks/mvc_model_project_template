@@ -1,0 +1,9 @@
+cls_dbcopy.php を利用して MySQL と SQLite 間でデータベースをコピーします。
+
+[MySQL -> SQLite]
+- MySQL のスキーマ名を SQLite のファイル名として使用します。
+- 同名のファイルが存在する場合は処理を中断します。
+
+[SQLite -> MySQL]
+- SQLite ファイルのファイル名を MySQL のスキーマ名として使用します。
+- 同名のスキーマが存在する場合は処理を中断します。
